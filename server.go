@@ -38,10 +38,12 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		var (
 			err error
 		)
-		if err = conn.WriteMessage([]byte("heartbeat")); err != nil {
-			return
+		for {
+			if err = conn.WriteMessage([]byte("heartbeat")); err != nil {
+				return
+			}
+			time.Sleep(1 * time.Second)
 		}
-		time.Sleep(1 * time.Second)
 	}()
 
 	for {
